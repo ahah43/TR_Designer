@@ -144,6 +144,8 @@ async function run() {
         }
 
 
+        let resultsTabb = document.getElementById("resultsTabb");
+        openPage('Results', resultsTabb, 'greenyellow');
 
     }
 }
