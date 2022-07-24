@@ -1,0 +1,12 @@
+.field {
+    text-decoration: none;
+    text-align: center;
+    /* font-size: 2vw; */
+    /* width: 2rem;
+        height: 2rem;
+        line-height: 2rem; */
+    /* border-color: rgb(17, 179, 57);   */
+    border-width: .25em;
+    border-style: solid;
+    display: inline-block;
+  }

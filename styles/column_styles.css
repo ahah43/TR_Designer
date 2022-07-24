@@ -1,0 +1,14 @@
+  /* Create columns that floats next to each other */
+  .column {
+    float: left;
+    padding: 2px;
+    border: 2px solid grey;
+    border-radius: 5px;
+  }
+
+  /* Clear floats after the columns */
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }

@@ -1,0 +1,55 @@
+/* table {
+    width: 100%;
+  } */
+
+  /* table, th, td {
+    border: 1px solid black;
+  } */
+
+  /* table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+  } */
+
+
+  table {
+    table-layout: auto !important;
+}
+
+
+ /* th,  td,  thead th,  tbody td,  tfoot td,  tfoot th {
+    width: auto !important;
+} */
+
+/* td{
+text-align:right;
+} */
+
+th, td, p, input {
+    font:14px Verdana;
+}
+
+table, th, tr, tbody, td
+{
+    border: solid 1px rgb(0, 0, 0);
+    border-collapse: collapse;
+    padding: 2px 3px;
+    border-color: #96D4D4;
+}
+
+th {
+    font-weight:bold;
+    text-align: center;
+}
+
+table, td 
+{
+    text-align: right;
+}
+
+/* thead, tbody { display: block; } */
+
+/* tbody { */
+    /* height: 100px;       Just for the demo          */
+    /* overflow-y: auto;    Trigger vertical scroll    */
+    /* overflow-x: hidden;  Hide the horizontal scroll }*/

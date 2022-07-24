@@ -1,0 +1,40 @@
+h1 {
+    text-align: center;
+    font-family: "Source Sans Pro", sans-serif;
+    font-weight: normal;
+    font-size: larger;
+}
+
+h2 {
+    text-align: center;
+    font-family: "Source Sans Pro", sans-serif;
+    font-weight: normal;
+    font-size: medium;
+}
+
+h3 {
+    text-align: center;
+    font-family: "Source Sans Pro", sans-serif;
+    font-weight: normal;
+    font-size: medium;
+    color: black;
+}
+
+label {
+    font-size: small;
+    text-align: center;
+    font-family: "Source Sans Pro", sans-serif;
+    font-weight: normal;
+    color: black;
+}
+
+input[type="number"] {
+    font-size: small;
+    width:5em;
+
+}
+
+input[type="text"] {
+    font-size: small;
+    width:5em;
+}
