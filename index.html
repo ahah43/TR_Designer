@@ -20,10 +20,18 @@
   <script src="./scripts/read_write_Table_data.js" defer></script>
   <script src="./scripts/reading_updating_writing_fields.js" defer></script>
   <script src="./scripts/call_render.js" defer></script>
+  
+  <script src="./scripts/saveResultsXLSX.js"></script>
+  <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+  <!-- <script src="./dist/xlsx.bundle.js"></script> -->
+  <script src="https://unpkg.com/canvas-datagrid/dist/canvas-datagrid.js"></script>
 
 
+  <!-- <script type="text/javascript"
+    src="https://cdn.jsdelivr.net/npm/excellentexport@3.4.3/dist/excellentexport.min.js"></script> -->
 
 
+  
 </head>
 <style>
   * {
@@ -35,6 +43,7 @@
 
 
 <body>
+  <div id = aaa></div>
   <h1>TR Designer v0
     <!-- <br> -->
     by: Ahmed Hassan, ahah43210@gmail.com
@@ -45,156 +54,156 @@
   <button class="tablink" onclick="openPage('CoreTab', this, 'greenyellow')">Core</button>
   <button class="tablink" onclick="openPage('WiresTab', this, 'greenyellow')">Conductors</button>
   <button class="tablink" onclick="openPage('RunTab', this, 'greenyellow')">Run</button>
-  <button class="tablink" id="resultsTabb" onclick="openPage('Results', this, 'greenyellow')">Results</button>
+  <!-- <button class="tablink" id="resultsTabb" onclick="openPage('Results', this, 'greenyellow')">Results</button> -->
 
   <!-- Core Designer HTML -->
   <div id="HomePageTab" class="tabcontent">
     <div class="column" style="background-color:white;width:50%;">
-    <h1>Main charachteristics</h1>
-    <table style="width:20em">
-      <!-- <th style="width:15em"> </th> -->
-      <tr>
-        <td><label> Power (KVA) </label></td>
-        <td>
-          <input type="number" id="Power" value="1000" min="1000" max="2000"
-            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
-            onchange="updateMainInfo()" />
-        </td>
-      </tr>
-      <tr>
-        <td> <label> Primary Line Voltage (KV) </label></td>
-        <td>
-          <p><select name="select" id="VHTL" onchange="updateMainInfo()">
-              <option value="11">11 KVA</option>
-              <option value="33">33 KVA</option>
-            </select>
-          </p>
-        </td>
-      </tr>
-      <tr>
-        <td> <label> Secondary Line Voltage (V) </label></td>
-        <td>
-          <input type="text" id="VLTL" value="433"
-            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
-            onchange="updateMainInfo()" />
-        </td>
-      </tr>
-      <tr>
-        <td> <label> Frequency (Hz) </label></td>
-        <td>
-          <input type="text" id="freq" value="50"
-            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
-        </td>
-      </tr>
-      <tr>
-        <td> <label> Primary Connection </label></td>
-        <td>
-          <p><select name="select" id="PrimaryConnection">
-              <option value="1">Delta</option>
-              <option value="0">Star</option>
-            </select>
-          </p>
-        </td>
-      </tr>
-      <tr>
-        <td> <label> Secnodary Connection </label></td>
-        <td>
-          <p><select name="select" id="SecnodaryConnection">
-              <option value="0">Star</option>
-              <option value="1">Delta</option>
-            </select>
-          </p>
-        </td>
-      </tr>
-      <tr>
-        <td> <label> Tap Changer Upper Limit (%) </label></td>
-        <td>
-          <input type="text" id="TapChangerLimit" value="5"
-            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
-        </td>
-      </tr>
-    </table>
-  </div>
-  <div class="column" style="background-color:white;width:50%;">
-    <h1>Clearance</h1>
-    <table style="width:40em">
-      <!-- <th style="width:15em"> </th> -->
-      <tr>
-        <td><label> Low Tension - Core </label></td>
-        <td>
-          <input type="text" id="LowTCoreClear" value=""
-            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
-        </td>
-      </tr>
-      <tr>
-        <td> <label> Low - High Tension </label></td>
-        <td>
-          <input type="text" id="LowHighTClear" value=""
-            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
-        </td>
-      </tr>
-      <tr>
-        <td> <label> High - High Tension </label></td>
-        <td>
-          <input type="text" id="HighHighTClear" value=""
-            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
-        </td>
-      </tr>
-      <tr>
-        <td> <label> Coil - Yoke </label></td>
-        <td>
-          <input type="text" id="coilYokeClear" value=""
-            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
-        </td>
-      </tr>
-      <tr>
-        <td> <label> Cooling Canal Strips </label></td>
-        <td>
-          <input type="text" id="CoolingStrips" value=""
-            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
-        </td>
-      </tr>
-      <tr>
-        <td> <label> min High Ring - High Tension </label></td>
-        <td>
-          <input type="text" id="minHRingHT" value=""
-            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
-        </td>
-        <td> <label> max High Ring - High Tension </label></td>
-        <td>
-          <input type="text" id="maxHRingHT" value=""
-            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
-        </td>
-      </tr>
-      <tr>
-        <td> <label> min High Ring - Low Tension </label></td>
-        <td>
-          <input type="text" id="minHRingLT" value=""
-            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
-        </td>
-        <td> <label> max High Ring - Low Tension </label></td>
-        <td>
-          <input type="text" id="maxHRingLT" value=""
-            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
-        </td>
-      </tr>
-      <tr>
-        <td><label> Paper Insulation (KV/m) </label></td>
-        <td>
-          <input type="text" id="PaperInsulation" value="8.5"
-            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
-        </td>
-      </tr>
-      <tr>
-        <td><label> Thickness of Added Insulation Paper </label></td>
-        <td>
-          <input type="number" id="PaperThickness" value="0.15" step="0.01"
-            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
-        </td>
-      </tr>
-    </table>
-  
-  </div>
+      <h1>Main charachteristics</h1>
+      <table style="width:20em">
+        <!-- <th style="width:15em"> </th> -->
+        <tr>
+          <td><label> Power (KVA) </label></td>
+          <td>
+            <input type="number" id="Power" value="1000" min="1000" max="2000"
+              oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+              onchange="updateMainInfo()" />
+          </td>
+        </tr>
+        <tr>
+          <td> <label> Primary Line Voltage (KV) </label></td>
+          <td>
+            <p><select name="select" id="VHTL" onchange="updateMainInfo()">
+                <option value="11">11 KVA</option>
+                <option value="33">33 KVA</option>
+              </select>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td> <label> Secondary Line Voltage (V) </label></td>
+          <td>
+            <input type="text" id="VLTL" value="433"
+              oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+              onchange="updateMainInfo()" />
+          </td>
+        </tr>
+        <tr>
+          <td> <label> Frequency (Hz) </label></td>
+          <td>
+            <input type="text" id="freq" value="50"
+              oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
+          </td>
+        </tr>
+        <tr>
+          <td> <label> Primary Connection </label></td>
+          <td>
+            <p><select name="select" id="PrimaryConnection">
+                <option value="1">Delta</option>
+                <option value="0">Star</option>
+              </select>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td> <label> Secnodary Connection </label></td>
+          <td>
+            <p><select name="select" id="SecnodaryConnection">
+                <option value="0">Star</option>
+                <option value="1">Delta</option>
+              </select>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td> <label> Tap Changer Upper Limit (%) </label></td>
+          <td>
+            <input type="text" id="TapChangerLimit" value="5"
+              oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div class="column" style="background-color:white;width:50%;">
+      <h1>Clearance</h1>
+      <table style="width:40em">
+        <!-- <th style="width:15em"> </th> -->
+        <tr>
+          <td><label> Low Tension - Core </label></td>
+          <td>
+            <input type="text" id="LowTCoreClear" value=""
+              oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
+          </td>
+        </tr>
+        <tr>
+          <td> <label> Low - High Tension </label></td>
+          <td>
+            <input type="text" id="LowHighTClear" value=""
+              oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
+          </td>
+        </tr>
+        <tr>
+          <td> <label> High - High Tension </label></td>
+          <td>
+            <input type="text" id="HighHighTClear" value=""
+              oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
+          </td>
+        </tr>
+        <tr>
+          <td> <label> Coil - Yoke </label></td>
+          <td>
+            <input type="text" id="coilYokeClear" value=""
+              oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
+          </td>
+        </tr>
+        <tr>
+          <td> <label> Cooling Canal Strips </label></td>
+          <td>
+            <input type="text" id="CoolingStrips" value=""
+              oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
+          </td>
+        </tr>
+        <tr>
+          <td> <label> min High Ring - High Tension </label></td>
+          <td>
+            <input type="text" id="minHRingHT" value=""
+              oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
+          </td>
+          <td> <label> max High Ring - High Tension </label></td>
+          <td>
+            <input type="text" id="maxHRingHT" value=""
+              oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
+          </td>
+        </tr>
+        <tr>
+          <td> <label> min High Ring - Low Tension </label></td>
+          <td>
+            <input type="text" id="minHRingLT" value=""
+              oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
+          </td>
+          <td> <label> max High Ring - Low Tension </label></td>
+          <td>
+            <input type="text" id="maxHRingLT" value=""
+              oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
+          </td>
+        </tr>
+        <tr>
+          <td><label> Paper Insulation (KV/m) </label></td>
+          <td>
+            <input type="text" id="PaperInsulation" value="8.5"
+              oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
+          </td>
+        </tr>
+        <tr>
+          <td><label> Thickness of Added Insulation Paper </label></td>
+          <td>
+            <input type="number" id="PaperThickness" value="0.15" step="0.01"
+              oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
+          </td>
+        </tr>
+      </table>
+
+    </div>
     <!-- <h1>Conductors</h1>
     <table style="width: 30em">
       <td> <label> Conductor Types</label></td>
@@ -209,65 +218,65 @@
 
     <br>
     <div class="column" style="background-color:white;width:100%;">
-    <h1>Losses Limits & Costs</h1>
-    <table style="width:60em">
-      <!-- <th style="width:15em"> </th> -->
-      <tr>
-        <td><label> Max No-Load Loss </label></td>
-        <td>
-          <input type="text" id="NLLoss" value=""
-            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
-        </td>
-      </tr>
-      <tr>
-        <td> <label> Max Load Loss </label></td>
-        <td>
-          <input type="text" id="LLoss" value=""
-            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
-        </td>
-      </tr>
-      <tr>
-        <td> <label> mean Impediance z% </label></td>
-        <td>
-          <input type="text" id="impz" value=""
-            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
-        </td>
-        <td> <label> Tolerance in z% </label></td>
-        <td>
-          <input type="text" id="impzTol" value="2"
-            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
-        </td>
-        <td> <label> z% Calculation Method </label></td>
-        <td>
-          <p><select name="select" id="zCaculationMethod">
-              <option value="0">R, XL, Spaces</option>
-              <option value="1">VI, VR, Losses</option>
-              <option value="2">Both methods</option>
-            </select>
-          </p>
-        </td>
-      </tr>
-      <tr>
-        <td><label> No-Load Loss Price ($/KW) </label></td>
-        <td>
-          <input type="text" id="NoLoadLossPrice" value="11"
-            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
-        </td>
-      </tr>
-      <tr>
-        <td><label> Load Loss Price ($/KW) </label></td>
-        <td>
-          <input type="text" id="LoadLossPrice" value="4"
-            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
-        </td>
-      </tr>
-    </table>
-  </div>
+      <h1>Losses Limits & Costs</h1>
+      <table style="width:60em">
+        <!-- <th style="width:15em"> </th> -->
+        <tr>
+          <td><label> Max No-Load Loss </label></td>
+          <td>
+            <input type="text" id="NLLoss" value=""
+              oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
+          </td>
+        </tr>
+        <tr>
+          <td> <label> Max Load Loss </label></td>
+          <td>
+            <input type="text" id="LLoss" value=""
+              oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
+          </td>
+        </tr>
+        <tr>
+          <td> <label> mean Impediance z% </label></td>
+          <td>
+            <input type="text" id="impz" value=""
+              oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
+          </td>
+          <td> <label> Tolerance in z% </label></td>
+          <td>
+            <input type="text" id="impzTol" value="2"
+              oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
+          </td>
+          <td> <label> z% Calculation Method </label></td>
+          <td>
+            <p><select name="select" id="zCaculationMethod">
+                <option value="0">R, XL, Spaces</option>
+                <option value="1">VI, VR, Losses</option>
+                <option value="2">Both methods</option>
+              </select>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td><label> No-Load Loss Price ($/KW) </label></td>
+          <td>
+            <input type="text" id="NoLoadLossPrice" value="11"
+              oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
+          </td>
+        </tr>
+        <tr>
+          <td><label> Load Loss Price ($/KW) </label></td>
+          <td>
+            <input type="text" id="LoadLossPrice" value="4"
+              oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
+          </td>
+        </tr>
+      </table>
+    </div>
 
   </div>
 
 
- 
+
 
 
   <div id="CoreTab" class="tabcontent">
@@ -303,20 +312,20 @@
             <input type="text" id="bF" value="1.15"
               oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
           </td>
-        <!-- </tr>
+          <!-- </tr>
 
         <tr> -->
           <td><label> Knee Point (Tesla) </label>
             <input type="text" id="knee" value="1.9"
               oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
           </td>
-          </tr>
+        </tr>
         <tr>
           <td> <label> Over-Excitation (%) </label>
             <input type="text" id="overexcit" value="10"
               oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
           </td>
-        <!-- </tr>
+          <!-- </tr>
         <tr> -->
           <td> <label> Minimum B (Tesla) </label>
             <input type="text" id="minB" value="1.5"
@@ -392,8 +401,6 @@
   <!-- Wire Designer HTML -->
   <div id="WiresTab" class="tabcontent">
     <div class="row">
-
-
       <table style="width:40em">
         <tbody>
           <tr>
@@ -456,6 +463,12 @@
   </div>
 
   <div id="Results" class="tabcontent">
+    <!-- <a download="Foil_Data.xls" href="#"
+        onclick="return ExcellentExport.excel(this, 'resultsTable', 'Sheet Name Here');">Export to Excel</a> -->
+    <!-- <a download="somedata.csv" href="#" onclick="return ExcellentExport.csv(this, 'datatable');">Export to CSV</a> -->
+    <a download="somedata.xlsx" href="#"
+      onclick="return ExcellentExport.convert({ anchor: this, filename: 'data_123.array', format: 'xlsx'},[{name: 'Sheet Name Here 1', from: {table: 'resultsTable'}}]);">Export
+      to CSV</a>
     <table id="resultsTable"></table>
   </div>
 
