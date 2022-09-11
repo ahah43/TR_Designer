@@ -30,7 +30,7 @@ function render(Availables, inAvailables) {
             } else {
                 inAvailables.push(x);
             }
-            render(Availables, inAvailables);
+            [Availables, inAvailables] = render(Availables, inAvailables);
         });
         root.appendChild(element);
     };
@@ -40,5 +40,6 @@ function render(Availables, inAvailables) {
     //     results = my_core_design(maxD.value, th.value, Availables.toString());
     // }
     // results = results.split("***");
+    console.log('inAvailables =', inAvailables);
     return [Availables, inAvailables];
 }

@@ -2,6 +2,7 @@ import init, { my_tr_designer, test_fn } from '../pkg/without_a_bundler_bare_for
 
 async function run() {
     await init();
+
     updateMainInfo();
     let results;
     var sheetsliderLL = document.getElementById("sheetRangeLL");
@@ -15,6 +16,7 @@ async function run() {
     sheetoutputUL.innerHTML = sheetsliderUL.value; // Display the default slider value
     // console.log(inAvailables);
     [Availables, inAvailables] = render(Availables, inAvailables);
+    // writeTable_sheets(coreLosses_B_Loss_kg, 'CoreLossesData');
     writeTable(coreLosses_B_Loss_kg, 'CoreLossesData');
     writeTable(FoilConductor, 'FoilData');
     writeTable(RoundConductor, 'RoundData');
@@ -76,7 +78,8 @@ async function run() {
         // test_fn(availables_to_pass);
         // console.log(availables_to_pass);
 
-
+        var current = new Date();
+        console.log(current)
         results = my_tr_designer(
             availables_to_pass,
             Number(document.getElementById("Power").value),
@@ -126,27 +129,43 @@ async function run() {
             Number(document.getElementById("FlatInsulationPaperThickness").value),
             readTable('FlatDatatable')
         );
-        console.log(results);
-        // send results to the Results Tab
-        let results_table = document.getElementById("resultsTable");
-        results_table.innerHTML = "";
-        let headers = "this_solution_i; core_d_; core_area_eff_;core_b_;core_combination; i_lt; lt_turn_per_layer; i_ht; ht_turn_per_layer; lt_n_i; lt_min_turn_per_layer; lt_max_turn_per_layer; lt_number_of_layers; lt_number_cooling_canals; lt_coil_thickness; lt_coil_dia; lt_mech_h; max_coil_mech_h; min_coil_mech_h; max_ht_mech_h; min_ht_mech_h; ht_n_i; ht_n_tap_i; ht_min_turn_per_layer; ht_max_turn_per_layer; ht_mech_h; coil_mech_h; ht_number_of_layers; ins_con; ht_needed_insulation; ht_thickness_insultation_papers_betwn_layers; ht_insultation_betwn_layers; ht_number_cooling_canals; ht_coil_thickness; coil_dia; e_between_limbs_centers; h_between_yokes; core_weight; total_core_losses; h_amp_per_axial; lt_coil_mean_d; lt_conductor_length_per_phase; lt_copper_weight_per_phase; ht_coil_mean_d; ht_conductor_length_per_phase; ht_copper_weight_per_phase; lt_r20; ht_r20; lt_r75; ht_r75; lt_copper_resistance_loss; ht_copper_resistance_loss; lt_eddy_loss; ht_eddy_loss; lt_connection_loss; ht_connection_loss; lt_load_losses; ht_load_losses; total_copper_load_losses; total_copper_load_losses_including_stray; h_mean; u_magnetic_constant; reactance_x; lt_r75_total; resistance_r; impedance_z_xr_method; cost_copper_loss; cost_no_load_loss; weight_copper_lt_3pahses; weight_copper_ht_3pahses; weigth_copper_material; cost_copper_material; cost_core_material; cost_total_material; cost_total_loss; cost_total; weight_total\n";
+        // console.log(results);
+        // //send results to the Results Tab
+        // let results_table = document.getElementById("resultsTable");
+        // results_table.innerHTML = "";
+        let headers = "this_solution_i; core_d_; core_area_eff_;core_b_;core_combination; i_lt; lt_turn_per_layer; current_density_lt; i_ht; ht_turn_per_layer; current_density_ht; lt_n_i; lt_min_turn_per_layer; lt_max_turn_per_layer; lt_number_of_layers; lt_number_cooling_canals; lt_coil_thickness; lt_coil_dia; lt_mech_h; max_coil_mech_h; min_coil_mech_h; max_ht_mech_h; min_ht_mech_h; ht_n_i; ht_n_tap_i; ht_min_turn_per_layer; ht_max_turn_per_layer; ht_mech_h; coil_mech_h; ht_number_of_layers; ins_con; ht_needed_insulation; ht_thickness_insultation_papers_betwn_layers; ht_insultation_betwn_layers; ht_number_cooling_canals; ht_coil_thickness; coil_dia; e_between_limbs_centers; h_between_yokes; core_weight; total_core_losses; h_amp_per_axial; lt_coil_mean_d; lt_conductor_length_per_phase; lt_copper_weight_per_phase; ht_coil_mean_d; ht_conductor_length_per_phase; ht_copper_weight_per_phase; lt_r20; ht_r20; lt_r75; ht_r75; lt_copper_resistance_loss; ht_copper_resistance_loss; lt_eddy_loss; ht_eddy_loss; lt_connection_loss; ht_connection_loss; lt_load_losses; ht_load_losses; total_copper_load_losses; total_copper_load_losses_including_stray; h_mean; u_magnetic_constant; reactance_x; lt_r75_total; resistance_r; impedance_z_xr_method; cost_copper_loss; cost_no_load_loss; weight_copper_lt_3pahses; weight_copper_ht_3pahses; weigth_copper_material; cost_copper_material; cost_core_material; cost_total_material; cost_total_loss; cost_total; weight_total\n";
+        let toPrint = [];
         headers = headers.replaceAll(' ', '');
         headers = headers.replaceAll('_', ' ');
-        results = headers + results.replaceAll(' ', '');
+        toPrint.push(headers.replaceAll('\n', '').split(";"));
+
+        // results = headers + results.replaceAll(' ', '');
         let splitted_results = results.split("\n");
         for (let row of splitted_results) {
-            let tr = results_table.insertRow();
-            for (let col of row.split(";")) {
-                let td = tr.insertCell();
-                td.innerHTML = col;
-            }
+            // let tr = results_table.insertRow();
+            toPrint.push(row.split(";").map(Number));
+            // for (let col of row.split(";")) {
+            //     let td = tr.insertCell();
+            //     td.innerHTML = col;
+            // }
         }
+        var currentdate = new Date();
+        var datetime = "@date:" + currentdate.getDate() + "_"
+            + (currentdate.getMonth() + 1) + "_"
+            + currentdate.getFullYear() + " @time_ "
+            + currentdate.getHours() + "_"
+            + currentdate.getMinutes() + "_"
+            + currentdate.getSeconds();
+        let thisDate = currentdate.getDate() + "/"
+            + (currentdate.getMonth() + 1) + "/"
+            + currentdate.getFullYear();
+        let thisTime = currentdate.getHours() + ":"
+            + currentdate.getMinutes() + ":"
+            + currentdate.getSeconds();
 
-
-        let resultsTabb = document.getElementById("resultsTabb");
-        openPage('Results', resultsTabb, 'greenyellow');
-
+        // let resultsTabb = document.getElementById("resultsTabb");
+        // openPage('Results', resultsTabb, 'greenyellow');
+        downloadResults_sheetjs("TR Designer Results_" + datetime + ".xlsx", toPrint);
     }
 }
 

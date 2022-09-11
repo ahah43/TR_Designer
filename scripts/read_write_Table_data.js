@@ -58,7 +58,43 @@ function writeTable(tableData, Parent_id) {
     myTable.setAttribute("border", "1");
 }
 
+function writeTable_sheets(tableData, Parent_id) {
+    // const tableParent = document.getElementById(Parent_id);
+    var grid = canvasDatagrid({
+        parentNode: document.getElementById(Parent_id),
+    });
 
+    // let myTable = document.createElement("table");
+    // myTable.id = Parent_id + 'table';
+    // grid.data = [];
+    // let headersJSON = {};
+
+
+    // for (i = 0; i < tableData.headers.length; i++) {
+    //     headersJSON[i] = tableData.headers[i];
+    // };
+    // grid.data.push(headersJSON);
+    // for (i = 0; i < tableData.data.length; i++) {
+    //     let thisRow = {};
+    //     for (j = 0; j < tableData.data[i].length; j++) {
+    //         thisRow[j] = tableData.data[i][j];
+    //     };
+    //     grid.data.push(thisRow);
+    // };
+    grid.data = [
+        { Ei: 'principes', melius: 'causae' },
+        { Ei: 'omittam', melius: 'audire' },
+        { Ei: 'mea', melius: 'quot' },
+        { Ei: 'pericula', melius: 'offendit' }
+    ];
+
+    grid.style.height = '100%';
+    grid.style.width = '100%';
+
+    // myTable.setAttribute("border", "1");
+    console.log(grid.data);
+
+}
 //////////////////// old versions ////////////////////////////////////
 function readTable_v0(Tid) {
     let tableData = "";
