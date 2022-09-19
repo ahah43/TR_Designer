@@ -5,7 +5,8 @@ const cachedTextDecoder = new TextDecoder('utf-8', { ignoreBOM: true, fatal: tru
 
 cachedTextDecoder.decode();
 
-let cachedUint8Memory0;
+let cachedUint8Memory0 = new Uint8Array();
+
 function getUint8Memory0() {
     if (cachedUint8Memory0.byteLength === 0) {
         cachedUint8Memory0 = new Uint8Array(wasm.memory.buffer);
@@ -17,7 +18,8 @@ function getStringFromWasm0(ptr, len) {
     return cachedTextDecoder.decode(getUint8Memory0().subarray(ptr, ptr + len));
 }
 
-let cachedUint16Memory0;
+let cachedUint16Memory0 = new Uint16Array();
+
 function getUint16Memory0() {
     if (cachedUint16Memory0.byteLength === 0) {
         cachedUint16Memory0 = new Uint16Array(wasm.memory.buffer);
@@ -42,7 +44,8 @@ export function test_fn(n) {
     wasm.test_fn(ptr0, len0);
 }
 
-let cachedFloat64Memory0;
+let cachedFloat64Memory0 = new Float64Array();
+
 function getFloat64Memory0() {
     if (cachedFloat64Memory0.byteLength === 0) {
         cachedFloat64Memory0 = new Float64Array(wasm.memory.buffer);
@@ -57,7 +60,8 @@ function passArrayF64ToWasm0(arg, malloc) {
     return ptr;
 }
 
-let cachedInt32Memory0;
+let cachedInt32Memory0 = new Int32Array();
+
 function getInt32Memory0() {
     if (cachedInt32Memory0.byteLength === 0) {
         cachedInt32Memory0 = new Int32Array(wasm.memory.buffer);
@@ -170,7 +174,7 @@ async function load(module, imports) {
 function getImports() {
     const imports = {};
     imports.wbg = {};
-    imports.wbg.__wbg_log_5a1af969f5a56ebc = function(arg0, arg1) {
+    imports.wbg.__wbg_log_31df2f38e8d78126 = function(arg0, arg1) {
         console.log(getStringFromWasm0(arg0, arg1));
     };
 
@@ -184,21 +188,24 @@ function initMemory(imports, maybe_memory) {
 function finalizeInit(instance, module) {
     wasm = instance.exports;
     init.__wbindgen_wasm_module = module;
-    cachedFloat64Memory0 = new Float64Array(wasm.memory.buffer);
-    cachedInt32Memory0 = new Int32Array(wasm.memory.buffer);
-    cachedUint16Memory0 = new Uint16Array(wasm.memory.buffer);
-    cachedUint8Memory0 = new Uint8Array(wasm.memory.buffer);
+    cachedFloat64Memory0 = new Float64Array();
+    cachedInt32Memory0 = new Int32Array();
+    cachedUint16Memory0 = new Uint16Array();
+    cachedUint8Memory0 = new Uint8Array();
 
 
     return wasm;
 }
 
-function initSync(bytes) {
+function initSync(module) {
     const imports = getImports();
 
     initMemory(imports);
 
-    const module = new WebAssembly.Module(bytes);
+    if (!(module instanceof WebAssembly.Module)) {
+        module = new WebAssembly.Module(module);
+    }
+
     const instance = new WebAssembly.Instance(module, imports);
 
     return finalizeInit(instance, module);
