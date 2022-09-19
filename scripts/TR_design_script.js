@@ -142,12 +142,9 @@ async function run() {
         // results = headers + results.replaceAll(' ', '');
         let splitted_results = results.split("\n");
         for (let row of splitted_results) {
-            // let tr = results_table.insertRow();
-            toPrint.push(row.split(";").map(Number));
-            // for (let col of row.split(";")) {
-            //     let td = tr.insertCell();
-            //     td.innerHTML = col;
-            // }
+            toPrint.push(row.split(";").map(convert_to_number));
+            // toPrint.push(row.split(";").map(Number));
+            // toPrint.push(row.split(";"));
         }
         var currentdate = new Date();
         var datetime = "@date:" + currentdate.getDate() + "_"

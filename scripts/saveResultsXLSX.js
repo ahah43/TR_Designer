@@ -6,6 +6,14 @@ function downloadResults_sheetjs(filename, data) {
     /* generate download */
     XLSX.writeFile(wb, filename);
   }
+
+
+  function convert_to_number(s){
+    if (s.includes(",")){
+      return s;
+    }
+    return Number(s);
+  }
   
   
   
